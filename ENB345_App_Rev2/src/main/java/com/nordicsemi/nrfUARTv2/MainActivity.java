@@ -140,6 +140,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
             public void onClick(View v) {
             	EditText editText = (EditText) findViewById(R.id.sendText);
             	String message = editText.getText().toString();
+                //String test = "derp";
             	byte[] value;
 				try {
 					//send data to service
@@ -239,11 +240,11 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
           //*********************//
             if (action.equals(UartService.ACTION_DATA_AVAILABLE)) {
               
-                 final byte[] txValue = intent.getByteArrayExtra(UartService.EXTRA_DATA);
+                 final byte[] txValue = intent.getByteArrayExtra(UartService.EXTRA_DATA); // THIS IS OBTAINING THE RFID TAG DATA
                  runOnUiThread(new Runnable() {
                      public void run() {
                          try {
-                         	String text = new String(txValue, "UTF-8");
+                         	String text = new String(txValue, "UTF-8"); // THIS IS THE DATA CONTENTS OF THE RFID TAG CONVERTED TO A STRING
                          	String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
                         	 	listAdapter.add("["+currentDateTimeString+"] RX: "+text);
                         	 	messageListView.smoothScrollToPosition(listAdapter.getCount() - 1);
