@@ -86,6 +86,13 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     private ArrayAdapter<String> listAdapter;
     private Button btnConnectDisconnect,btnSend;
     private EditText edtMessage;
+    int counter = 0;
+    long old_time = 0;
+    long time_difference = 0;
+    long RFIDClock = 0;
+    String tag_exert1;
+    String tag_exert2;
+    String tag_exert3;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -238,15 +245,36 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
              	 mService.enableTXNotification();
             }
           //*********************//
+
             if (action.equals(UartService.ACTION_DATA_AVAILABLE)) {
-              
+                if(counter == 0)
+                {
+                    old_time = new Date().getTime();
+                }
+                RFIDClock = new Date().getTime();
+                time_difference = RFIDClock - old_time;
                  final byte[] txValue = intent.getByteArrayExtra(UartService.EXTRA_DATA); // THIS IS OBTAINING THE RFID TAG DATA
                  runOnUiThread(new Runnable() {
                      public void run() {
                          try {
                          	String text = new String(txValue, "UTF-8"); // THIS IS THE DATA CONTENTS OF THE RFID TAG CONVERTED TO A STRING
+                             String tag_exert = text.substring(0, 5);
+                             if(counter == 0)
+                             {
+                                 tag_exert1 = tag_exert;
+                                 counter = 1;
+                                 old_time = RFIDClock;
+                                 listAdapter.add(" RX: "+tag_exert1); // NEW Print
+                             }
+                             if(time_difference > 500)
+                             {
+                                 tag_exert1 = tag_exert;
+                                 old_time = RFIDClock;
+                                 listAdapter.add(" RX: "+tag_exert1); // NEW Print
+                             }
                          	String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
-                        	 	listAdapter.add("["+currentDateTimeString+"] RX: "+text);
+                        	 	//listAdapter.add("["+currentDateTimeString+"] RX: "+text); OLD Print
+
                         	 	messageListView.smoothScrollToPosition(listAdapter.getCount() - 1);
                         	
                          } catch (Exception e) {
@@ -254,7 +282,9 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                          }
                      }
                  });
+
              }
+
            //*********************//
             if (action.equals(UartService.DEVICE_DOES_NOT_SUPPORT_UART)){
             	showMessage("Device doesn't support UART. Disconnecting");
