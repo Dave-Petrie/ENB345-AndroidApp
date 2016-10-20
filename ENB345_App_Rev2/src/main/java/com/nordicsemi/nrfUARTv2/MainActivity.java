@@ -23,9 +23,6 @@
 
 package com.nordicsemi.nrfUARTv2;
 
-
-
-
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.util.Date;
@@ -84,8 +81,11 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     private BluetoothAdapter mBtAdapter = null;
     private ListView messageListView;
     private ArrayAdapter<String> listAdapter;
-    private Button btnConnectDisconnect,btnSend;
+    private Button btnConnectDisconnect,btnSend,btnBasket;
     private EditText edtMessage;
+
+    // Added global variables
+
     int counter = 0;
     long old_time = 0;
     long time_difference = 0;
@@ -93,10 +93,18 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     String tag_exert1;
     String tag_exert2;
     String tag_exert3;
+
+    // ADDING THE DATABASE SHIT!!
+    // DatabaseHelper myDB; //initialising the database
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        // Database
+        // myDB = new DatabaseHelper(this);
+
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBtAdapter == null) {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
@@ -112,8 +120,6 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         edtMessage = (EditText) findViewById(R.id.sendText);
         service_init();
 
-     
-       
         // Handle Disconnect & Connect button
         btnConnectDisconnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,9 +171,18 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                 
             }
         });
+
+        // BASKET BUTTON
+        btnBasket = (Button) findViewById(R.id.btn_basket);
+        btnBasket.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent basketActivityIntent = new Intent(MainActivity.this, BasketActivity.class);
+                startActivity(basketActivityIntent);
+            }
+        });
      
         // Set initial UI state
-        
     }
     
     //UART service connected/disconnected
@@ -258,7 +273,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                      public void run() {
                          try {
                          	String text = new String(txValue, "UTF-8"); // THIS IS THE DATA CONTENTS OF THE RFID TAG CONVERTED TO A STRING
-                             String tag_exert = text.substring(0, 5);
+                             String tag_exert = text.substring(0, 8);
                              if(counter == 0)
                              {
                                  tag_exert1 = tag_exert;

@@ -12,10 +12,18 @@
 
         <Button
             android:id="@+id/btn_select"
-            android:layout_width="match_parent"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:text="Connect" />
+
+        <Button
+            android:id="@+id/btn_basket"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="Basket"  />
+
     </LinearLayout>
 
     <LinearLayout
@@ -46,6 +54,7 @@
                 android:maxLength="20"
                 android:maxLines="1"
                 android:shadowRadius="1" />
+
 
             <ListView
                 android:id="@+id/listMessage"

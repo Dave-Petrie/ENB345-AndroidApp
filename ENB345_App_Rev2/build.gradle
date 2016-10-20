@@ -1,12 +1,15 @@
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion 18
-    buildToolsVersion "23.0.0"
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         applicationId "com.nordicsemi.nrfUARTv2"
         minSdkVersion 18
         targetSdkVersion 18
+        jackOptions {
+            enabled true
+        }
     }
 
 
@@ -16,8 +19,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     compile 'com.android.support:support-v4:23.0.0'
+    compile 'com.android.support:appcompat-v7:18.0.0'
 }
