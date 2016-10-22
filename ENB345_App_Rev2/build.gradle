@@ -1,15 +1,12 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 18
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "com.nordicsemi.nrfUARTv2"
         minSdkVersion 18
         targetSdkVersion 18
-        jackOptions {
-            enabled true
-        }
     }
 
 
@@ -20,12 +17,12 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_7
     }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:23.0.0'
-    compile 'com.android.support:appcompat-v7:18.0.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
 }
