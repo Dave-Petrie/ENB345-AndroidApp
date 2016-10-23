@@ -52,9 +52,6 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.List;
-
-import externaldatabaseexample.DatabaseAccess;
 
 public class MainActivity extends Activity implements RadioGroup.OnCheckedChangeListener {
     private static final int REQUEST_SELECT_DEVICE = 1;
@@ -78,7 +75,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     public ListView list_View;
 
     // Added global variables
-    int counter = 0;
+    int scan_counter = 0;
     long old_time = 0;
     long time_difference = 0;
     long RFIDClock = 0;
@@ -88,8 +85,18 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 
     String current_tag;
 
+    static int counter_items;
+    static BasketActivity FUCKTHIS;
+
+
+
+//    globalVariableControl g = (globalVariableControl)getApplication();
+//    int data = g.getData();
+//    g
+//    globalVariableControl g2 = new globalVariableControl();
+//    g2.
     // /Test String
-    String[] Test = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12", "Item 13", "Item 14", "Item 15", "Item 16"};
+    //String[] Test = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12", "Item 13", "Item 14", "Item 15", "Item 16"};
 
 
     // ADDING THE DATABASE SHIT!!
@@ -107,24 +114,38 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         // First Adapter for first list
         //ArrayAdapter adapterToBuy = new ArrayAdapter<String>(this, R.layout.listitem_items, Test);
         */
-
-        //Initialising the database reference interface
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_basket);
+       // setContentView(R.layout.activity_basket);
        // findViewById(R.id.activity_basket);
+        /*
+
+        ArrayAdapter adapterToBuyPrice = new ArrayAdapter<String>(this, R.layout.listitem_items, Test);
+        ListView listViewToBuyPrice = (ListView) findViewById(R.id.basketList);
+        listViewToBuyPrice.setAdapter(adapterToBuyPrice);
 
         //Database interfacing
-        list_View = (ListView) findViewById(R.id.basketList);
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
-        databaseAccess.open();
-        List<String> Products = databaseAccess.getName();
-        databaseAccess.close();
+        // list_View = (ListView) findViewById(R.id.basketList);
+        //DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+        //databaseAccess.open();
+        //List<String> Products = databaseAccess.getName();
+        //databaseAccess.close();
 
         //Setting up the reference to the table/listView
-        ArrayAdapter<String> table_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Test);
-        list_View.setAdapter(table_adapter);
-
+        //ArrayAdapter<String> table_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Test);
+        //list_View.setAdapter(table_adapter);
+        */
         // *** Start of the Bluetooth Code *** //
+        //Initialising the database reference interface
+
+
+        counter_items = 0;
+        int instanceFlag = 0;
+        if(instanceFlag == 0)
+        {
+            FUCKTHIS = new com.nordicsemi.nrfUARTv2.BasketActivity();
+            instanceFlag = 1;
+        }
+
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -250,36 +271,50 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
             }
           //*********************//
             if (action.equals(UartService.ACTION_DATA_AVAILABLE)) {
-                if(counter == 0)
+                if(scan_counter == 0)
                 {
                     old_time = new Date().getTime();
                 }
                 RFIDClock = new Date().getTime();
                 time_difference = RFIDClock - old_time;
 
+                //**********                     *************//
+                // ********* DATA ACCESSING PART *************//
+                //**********                     *************//
+
                  // THIS IS OBTAINING THE RFID TAG DATA
+
                  final byte[] txValue = intent.getByteArrayExtra(UartService.EXTRA_DATA);
                  runOnUiThread(new Runnable() {
                      public void run() {
                          try {
                              // THIS IS THE DATA CONTENTS OF THE RFID TAG CONVERTED TO A STRING
                              String text = new String(txValue, "UTF-8");
-                             String tag_exert = text.substring(0, 8);
+                             String tag_exert = text.substring(0, 1);
 
                              //Storing the tag in a global variable for use in the other activity :)
                              current_tag = tag_exert;
-                             if(counter == 0)
+
+                             if(scan_counter == 0)
                              {
+                                 counter_items++;
                                  tag_exert1 = tag_exert;
-                                 counter = 1;
+                                 scan_counter = 1;
                                  old_time = RFIDClock;
                                  listAdapter.add(" RX: "+tag_exert1); // NEW Print
+                                 BasketActivity.Test[counter_items-1] = tag_exert;
+                                 tag_exert = null;
+                                 tag_exert1 = null;
+                                 FUCKTHIS.updateList(); // NOTHING HAPPENS AFTER HERE - NO CODE WILL DO ANYTHING
                              }
                              if(time_difference > 500)
                              {
+                                 counter_items++;
                                  tag_exert1 = tag_exert;
                                  old_time = RFIDClock;
                                  listAdapter.add(" RX: "+tag_exert1); // NEW Print
+                                 BasketActivity.Test[counter_items-1] = tag_exert;
+                                 FUCKTHIS.updateList(); // NOTHING HAPPENS AFTER HERE - NO CODE WILL DO ANYTHING
                              }
                          	String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
                         	 	//listAdapter.add("["+currentDateTimeString+"] RX: "+text); OLD Print

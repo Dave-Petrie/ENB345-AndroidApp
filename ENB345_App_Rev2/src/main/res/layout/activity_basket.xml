@@ -10,11 +10,25 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.nordicsemi.nrfUARTv2.BasketActivity">
 
+    <TextView
+        android:text="In Your Basket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="24dp"
+        android:id="@+id/textView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="24sp">
+    </TextView>
+
     <ListView
         android:id="@+id/basketList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center" >
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/textView">
     </ListView>
 
 </RelativeLayout>
