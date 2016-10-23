@@ -136,7 +136,6 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         // *** Start of the Bluetooth Code *** //
         //Initialising the database reference interface
 
-
         counter_items = 0;
         int instanceFlag = 0;
         if(instanceFlag == 0)
@@ -298,23 +297,23 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                              if(scan_counter == 0)
                              {
                                  counter_items++;
-                                 tag_exert1 = tag_exert;
+                                 tag_exert1 = tag_exert; // Obtain the first of the 3 data packets
                                  scan_counter = 1;
                                  old_time = RFIDClock;
-                                 listAdapter.add(" RX: "+tag_exert1); // NEW Print
-                                 BasketActivity.Test[counter_items-1] = tag_exert;
-                                 tag_exert = null;
-                                 tag_exert1 = null;
-                                 FUCKTHIS.updateList(); // NOTHING HAPPENS AFTER HERE - NO CODE WILL DO ANYTHING
+                                 listAdapter.add(" Item Added!");
+                                 FUCKTHIS.addElement(tag_exert1, counter_items);
+                                 //BasketActivity.Test[counter_items] = tag_exert1;
+                                 //FUCKTHIS.updateList(); // NOTHING HAPPENS AFTER HERE - NO CODE WILL DO ANYTHING
                              }
                              if(time_difference > 500)
                              {
                                  counter_items++;
-                                 tag_exert1 = tag_exert;
+                                 tag_exert1 = tag_exert; // Obtain the first of the 3 data packets
                                  old_time = RFIDClock;
-                                 listAdapter.add(" RX: "+tag_exert1); // NEW Print
-                                 BasketActivity.Test[counter_items-1] = tag_exert;
-                                 FUCKTHIS.updateList(); // NOTHING HAPPENS AFTER HERE - NO CODE WILL DO ANYTHING
+                                 listAdapter.add(" Item Added!");
+                                 FUCKTHIS.addElement(tag_exert1, counter_items);
+                                 //BasketActivity.Test[counter_items] = tag_exert1;
+                                 //FUCKTHIS.updateList(); // NOTHING HAPPENS AFTER HERE - NO CODE WILL DO ANYTHING
                              }
                          	String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
                         	 	//listAdapter.add("["+currentDateTimeString+"] RX: "+text); OLD Print
