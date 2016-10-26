@@ -86,61 +86,16 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     String current_tag;
 
     static int counter_items;
-    static BasketActivity FUCKTHIS;
-
-
-
-//    globalVariableControl g = (globalVariableControl)getApplication();
-//    int data = g.getData();
-//    g
-//    globalVariableControl g2 = new globalVariableControl();
-//    g2.
-    // /Test String
-    //String[] Test = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12", "Item 13", "Item 14", "Item 15", "Item 16"};
-
-
-    // ADDING THE DATABASE SHIT!!
-    // --> returning a null...why
-    //private ListView listView;
+    static BasketActivity basketInstance;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        /*  ******OBSOLETE CODE THAT I WANT TO KEEP IN JUST*******
-        // Trying to incorporate the other main activity
-        // this.listView = (ListView) findViewById(android.R.id.list)
-        //Cursor cursor = databaseAccess.database.rawQuery("INSERT INTO products (id, name, cost, weight) VALUES (100000,"+text+",200,23.9)", null);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Products);
-        //this.listView.setAdapter(adapter);
-        // First Adapter for first list
-        //ArrayAdapter adapterToBuy = new ArrayAdapter<String>(this, R.layout.listitem_items, Test);
-        */
-       // setContentView(R.layout.activity_basket);
-       // findViewById(R.id.activity_basket);
-        /*
-
-        ArrayAdapter adapterToBuyPrice = new ArrayAdapter<String>(this, R.layout.listitem_items, Test);
-        ListView listViewToBuyPrice = (ListView) findViewById(R.id.basketList);
-        listViewToBuyPrice.setAdapter(adapterToBuyPrice);
-
-        //Database interfacing
-        // list_View = (ListView) findViewById(R.id.basketList);
-        //DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
-        //databaseAccess.open();
-        //List<String> Products = databaseAccess.getName();
-        //databaseAccess.close();
-
-        //Setting up the reference to the table/listView
-        //ArrayAdapter<String> table_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Test);
-        //list_View.setAdapter(table_adapter);
-        */
-        // *** Start of the Bluetooth Code *** //
-        //Initialising the database reference interface
 
         counter_items = 0;
         int instanceFlag = 0;
         if(instanceFlag == 0)
         {
-            FUCKTHIS = new com.nordicsemi.nrfUARTv2.BasketActivity();
+            basketInstance = new com.nordicsemi.nrfUARTv2.BasketActivity();
             instanceFlag = 1;
         }
 
@@ -301,9 +256,9 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                                  scan_counter = 1;
                                  old_time = RFIDClock;
                                  listAdapter.add(" Item Added!");
-                                 FUCKTHIS.addElement(tag_exert1, counter_items);
+                                 basketInstance.addElement(tag_exert1, counter_items);
                                  //BasketActivity.Test[counter_items] = tag_exert1;
-                                 //FUCKTHIS.updateList(); // NOTHING HAPPENS AFTER HERE - NO CODE WILL DO ANYTHING
+                                 //basketInstance.updateList(); // NOTHING HAPPENS AFTER HERE - NO CODE WILL DO ANYTHING
                              }
                              if(time_difference > 500)
                              {
@@ -311,9 +266,9 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                                  tag_exert1 = tag_exert; // Obtain the first of the 3 data packets
                                  old_time = RFIDClock;
                                  listAdapter.add(" Item Added!");
-                                 FUCKTHIS.addElement(tag_exert1, counter_items);
+                                 basketInstance.addElement(tag_exert1, counter_items);
                                  //BasketActivity.Test[counter_items] = tag_exert1;
-                                 //FUCKTHIS.updateList(); // NOTHING HAPPENS AFTER HERE - NO CODE WILL DO ANYTHING
+                                 //basketInstance.updateList(); // NOTHING HAPPENS AFTER HERE - NO CODE WILL DO ANYTHING
                              }
                          	String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
                         	 	//listAdapter.add("["+currentDateTimeString+"] RX: "+text); OLD Print
