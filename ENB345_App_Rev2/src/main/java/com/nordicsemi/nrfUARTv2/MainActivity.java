@@ -144,7 +144,6 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
             }
         });
 
-
         // BASKET BUTTON
         btnBasket = (Button) findViewById(R.id.btn_basket);
         btnBasket.setOnClickListener(new View.OnClickListener(){
